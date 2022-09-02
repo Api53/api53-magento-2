@@ -30,7 +30,7 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](https://github.com/Api53/api53-magento-2/blob/main/.assets/api53-configuration-magento-admin.jpg)
+![screenshot](https://github.com/Api53/api53-magento-2/blob/main/assets/api53-configuration-magento-admin.jpg)
 
 ## Key Features
 
@@ -52,6 +52,9 @@ After successfully login to your Magento server, please go to the root magento d
 # Install Api53 Module by using composer
 $ composer require api53/api53-magento-2
 
+# Enable Api53 module
+$ php bin/magento module:enable Api53_Api53
+
 # Run setup:upgrade
 $ php bin/magento setup:upgrade
 
@@ -70,9 +73,13 @@ Api53 module was successfully installed. You can enable it in `Stores` -> `Setti
 <br>
 
 **Please Note:**
+This Magento module use cron to init your catalog with Api53. Make sure your Magento cron is running propertly.
 
+<br>
 To use the module you need a valid Api53 Shop API key. To get a key you have to create a [new Api53 account](https://www.api53.com/signup/) (Free sign up - No credit card required). You can read more details in our documentation [here](https://www.api53.com/documentation/api53-setup-guide/).
 
+<br>
+The initial catalog sync process may take some time. **Up to 15 minutes**. It all depends on how many products are synced with Api53.
 
 
 ## Documentation
