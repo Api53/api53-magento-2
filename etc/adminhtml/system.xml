@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Meetpxny
+ * @package    Api53_Api53
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+     <system>
+           <tab id="api53" translate="label" class="vendor" sortOrder="100">
+            <label>Api53</label>
+        </tab>
+          <section id="api53" translate="label" sortOrder="133" showInDefault="1" showInWebsite="1" showInStore="1">
+              <tab>api53</tab>
+              <label>Api53</label>
+              <resource>Api53_Api53::config</resource>
+              <group id="settings" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Settings</label>
+                    <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment><![CDATA[Enable Api53]]></comment>
+                    </field>
+                    <field id="api_key" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>API Secret Key</label>
+						<depends>
+							<field id="enabled">1</field>
+						</depends>						
+                    </field>
+					<field id="sku_amount" translate="label"  sortOrder="2" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>SKU Amount</label>
+						<backend_model>Api53\Api53\Model\Config\Backend\SkuAmount</backend_model>
+						<frontend_model>Api53\Api53\Model\Config\Backend\Disable</frontend_model>
+						<depends>
+							<field id="enabled">1</field>
+						</depends>
+						 <comment><![CDATA[SKU amount for current Api53 User subscription]]></comment>
+					</field> 					
+                </group>
+          </section>   
+     </system>
+</config>
