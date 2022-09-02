@@ -30,7 +30,7 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](./assets/api53-configuration-magento-admin.jpg)
+![screenshot](https://github.com/Api53/api53-magento-2/blob/main/.assets/api53-configuration-magento-admin.jpg)
 
 ## Key Features
 
