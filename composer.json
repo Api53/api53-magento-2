@@ -1,7 +1,6 @@
 {
   "name": "api53/api53-magento-2",
   "description": "Api53 Headless Module for Magento 2",
-  "version": "1.0.0",
   "keywords": [
     "api53",
     "api",
@@ -13,17 +12,17 @@
     "magento 2"
   ],
   "require": {
-    "magento/framework": ">=102.0.3",
-    "magento/module-backend": ">=100.3.3",
-    "magento/module-catalog": ">=100.3.3",
-    "magento/module-config": ">=100.3.3",
-    "magento/module-store": ">=100.3.3",
-    "magento/module-ui": ">=100.3.3",
+    "magento/framework": "^102.0.3",
+    "magento/module-backend": "^100.3.3",
+    "magento/module-catalog": "^100.3.3",
+    "magento/module-config": "^100.3.3",
+    "magento/module-store": "^100.3.3",
+    "magento/module-ui": "^100.3.3",
     "php": ">=7.3"
   },
   "type": "magento2-module",
   "license": [
-    "Apache License 2.0"
+    "Apache-2.0"
   ],
   "autoload": {
     "files": [
