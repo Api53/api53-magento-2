@@ -58,6 +58,9 @@ $ php bin/magento module:enable Api53_Api53
 # Run setup:upgrade
 $ php bin/magento setup:upgrade
 
+# Clean cache
+$ php bin/magento cache:clean
+
 # Complete the setup
 $ php bin/magento setup:di:compile
 ```
@@ -72,13 +75,11 @@ Api53 module was successfully installed. You can enable it in `Stores` -> `Setti
 
 <br>
 
-**Please Note:**
+**Please Note:**<br>
 This Magento module use cron to init your catalog with Api53. Make sure your Magento cron is running propertly.
 
-<br>
 To use the module you need a valid Api53 Shop API key. To get a key you have to create a [new Api53 account](https://www.api53.com/signup/) (Free sign up - No credit card required). You can read more details in our documentation [here](https://www.api53.com/documentation/api53-setup-guide/).
 
-<br>
 The initial catalog sync process may take some time. **Up to 15 minutes**. It all depends on how many products are synced with Api53.
 
 
