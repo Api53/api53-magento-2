@@ -58,11 +58,14 @@ $ php bin/magento module:enable Api53_Api53
 # Run setup:upgrade
 $ php bin/magento setup:upgrade
 
-# Clean cache
-$ php bin/magento cache:clean
-
 # Complete the setup
 $ php bin/magento setup:di:compile
+
+# Deploy static content
+$ php bin/magento setup:static-content:deploy
+
+# Clean cache
+$ php bin/magento cache:clean
 ```
 
 After successful installation you can check whether the module has been activated:
