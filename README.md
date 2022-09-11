@@ -7,7 +7,7 @@
 
 <h4 align="center">Api53 provides Headless solutions for eCommerce.</h4>
 
-<h4 align="center"><a href="https://wwww.api53.com">www.api53.com</a></h4>
+<h4 align="center"><a target="_blank" href="https://www.api53.com">www.api53.com</a></h4>
 
 <p align="center">
 <img src="http://poser.pugx.org/api53/api53-magento-2/v" alt="Latest Stable Version">
