@@ -7,6 +7,8 @@
 
 <h4 align="center">Api53 provides Headless solutions for eCommerce.</h4>
 
+<h4 align="center"><a href="https://wwww.api53.com">www.api53.com</a></h4>
+
 <p align="center">
 <img src="http://poser.pugx.org/api53/api53-magento-2/v" alt="Latest Stable Version">
 <img src="http://poser.pugx.org/api53/api53-magento-2/license" alt="Licensee">
@@ -24,7 +26,7 @@
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
-  <a href="#getting-started">Getting Started</a> •
+  <a href="#getting-started">Getting Started / Installation</a> •
   <a href="#documentation">Documentation</a> •
   <a href="#support">Support</a> •
   <a href="#license">License</a>
@@ -41,9 +43,11 @@
 * Multi tenant user control for Headless API
 * ...and many more
 
-## Getting Started
+## Getting Started / Installation
 
 To be able to install this Magento module, you need SSH access to your server. <br>
+
+### Installation via Composer
 
 You can install our module via [composer](https://getcomposer.org/). You can find the Api53 composer package at the following address: https://packagist.org/packages/api53/api53-magento-2
 
@@ -72,6 +76,39 @@ After successful installation you can check whether the module has been activate
 ```bash
 $ php bin/magento module:status
 ```
+
+### Manual installation
+
+After successfully login to your Magento server, please go to the root magento directory and run the following commands:
+
+```bash
+# Download the latest Api53 Magento extension release from GitHub
+$ wget -O api53.tar.gz https://github.com/Api53/api53-magento-2/tarball/main
+
+# Create Api53 directory inside app/code
+$ mkdir -p app/code/Api53/Api53
+
+# Unpack the Api53 extension 
+$ tar -xf api53.tar.gz -C app/code/Api53/Api53/ --strip-components=1
+
+# Enable Api53 module
+$ php bin/magento module:enable Api53_Api53
+
+# Run setup:upgrade
+$ php bin/magento setup:upgrade
+
+# Complete the setup
+$ php bin/magento setup:di:compile
+
+# Deploy static content
+$ php bin/magento setup:static-content:deploy
+
+# Clean cache
+$ php bin/magento cache:clean
+```
+
+
+### Enable Api53 Magento extension
 
 Api53 module was successfully installed. You can enable it in `Stores` -> `Settings` -> `Configuration` -> `Api53`
 
