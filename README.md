@@ -36,6 +36,7 @@
 
 ## Key Features
 
+* This extension exports your entire product catalog to Api53 and you can use it to create CSV files
 * Yes, we make your eCommerce shop headless through the API we offer
 * Decoupling the product catalog from your magento shop
 * Creation of a dedicated API endpoint over Api53.com
