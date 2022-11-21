@@ -6,7 +6,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Api53\Api53\Helper\Data as Api53Helper;
 use Api53\Api53\Model\Api as Api53ModelApi;
 
-class SalesOrderShipmentAfter implements ObserverInterface
+class SalesOrderPlaceAfter implements ObserverInterface
 {
      protected $api53Helper;
      protected $api;
@@ -17,21 +17,18 @@ class SalesOrderShipmentAfter implements ObserverInterface
      ) {
          $this->api53Helper = $api53Helper;
          $this->api = $api;
-     }
+     } 
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+	 public function execute(\Magento\Framework\Event\Observer $observer)
     {
-		//if ($this->api53Helper->getUpdateStock() == '2') {
-			$api53StockOption = $this->api53Helper->getUpdateStock();
-			$shipment = $observer->getEvent()->getShipment();
-			/** @var \Magento\Sales\Model\Order $order */
-			$order = $shipment->getOrder();
+		if ($this->api53Helper->getUpdateStock() == '1') {
+	        $order= $observer->getEvent()->getData('order');
 			// Do some things
 			$orderItems = $order->getAllItems();
 			
 			$data = [];		
 			foreach ($orderItems as $item) {
-				$data[] = $this->api53Helper->getProductData($item->getProduct(), $item->getQtyShipped());
+				$data[] = $this->api53Helper->getProductData($item->getProduct(), $item->getQtyOrdered());
 			}
 	
 			if (count($data) > 0) {
@@ -40,6 +37,6 @@ class SalesOrderShipmentAfter implements ObserverInterface
 				$this->api->updateOrCreateProduct($data);
 			}
 			//throw new \Magento\Framework\Exception\LocalizedException(__(print_r($data, true)));
-		//}
+		}
 	}
 }

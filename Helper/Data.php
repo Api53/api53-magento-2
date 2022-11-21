@@ -100,6 +100,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Get Max Allowed Weight
      * @return integer
      */    
+    public function getUpdateStock(){
+        return $this->scopeConfig->getValue('api53/settings/update_stock',
+                    ScopeInterface::SCOPE_STORE);
+    }   
+    
+    /*
+     * Get Max Allowed Weight
+     * @return integer
+     */    
     public function isCronEnabled(){
 
         $isEnabled = true;
@@ -137,80 +146,83 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$imageUrl  = null;
 		$categories = [];
 		$customAttributes = [];
+		$data = [];
 		
 		// product stock
 		$stockItem = $this->stockRegistry->getStockItemBySku($sku);
-		
-		// all categories
-		if ($this->allCategories == null){
-			$category_id = 2; //default category
-			$allCategories = [];
-			$category = $this->categoryRepository->get($category_id);
-			$level1Categories = $category->getChildrenCategories();
-			foreach ($level1Categories as $level1Category) {
-				$tempCategories = [];
-				$tempCategories[$level1Category->getId()] = $level1Category->getName();
-				$level2Categories = $level1Category->getChildrenCategories();
-				foreach ($level2Categories as $level2Category) {
-					$tempCategories[$level2Category->getId()] = $level2Category->getName();
-					$level3Categories = $level2Category->getChildrenCategories();
-					foreach ($level3Categories as $level3Category) {
-						$tempCategories[$level3Category->getId()] = $level3Category->getName();
+
+		if ($stockItem->getQty() - $qtyShipped > 0) {
+			// all categories
+			if ($this->allCategories == null){
+				$category_id = 2; //default category
+				$allCategories = [];
+				$category = $this->categoryRepository->get($category_id);
+				$level1Categories = $category->getChildrenCategories();
+				foreach ($level1Categories as $level1Category) {
+					$tempCategories = [];
+					$tempCategories[$level1Category->getId()] = $level1Category->getName();
+					$level2Categories = $level1Category->getChildrenCategories();
+					foreach ($level2Categories as $level2Category) {
+						$tempCategories[$level2Category->getId()] = $level2Category->getName();
+						$level3Categories = $level2Category->getChildrenCategories();
+						foreach ($level3Categories as $level3Category) {
+							$tempCategories[$level3Category->getId()] = $level3Category->getName();
+						}
+					}
+					$allCategories[] =  $tempCategories;
+				}
+				$this->allCategories = $allCategories;
+			}
+			
+			// selected categories
+			$categories = [];
+			$categoryIds = $product->getCategoryIds();
+			foreach ($categoryIds as $categoryId) {
+				$category = $this->categoryRepository->get($categoryId);
+				if ($parentCategories = $category->getParentCategories()) { 
+					foreach ($parentCategories as $parentCategory) {
+						$categories[$parentCategory->getId()] = $parentCategory->getName(); 
 					}
 				}
-				$allCategories[] =  $tempCategories;
 			}
-			$this->allCategories = $allCategories;
-		}
-		
-		// selected categories
-		$categories = [];
-		$categoryIds = $product->getCategoryIds();
-		foreach ($categoryIds as $categoryId) {
-			$category = $this->categoryRepository->get($categoryId);
-			if ($parentCategories = $category->getParentCategories()) { 
-				foreach ($parentCategories as $parentCategory) {
-					$categories[$parentCategory->getId()] = $parentCategory->getName(); 
+			
+			// final categories
+			$finalCategories = [];
+			foreach($this->allCategories as $allCategory) {
+				$finalCategory = array_values(array_intersect_key($allCategory, $categories));
+				if (count($finalCategory) > 0) {
+					$finalCategories[] = $finalCategory;
 				}
 			}
-		}
-		
-		// final categories
-		$finalCategories = [];
-		foreach($this->allCategories as $allCategory) {
-			$finalCategory = array_values(array_intersect_key($allCategory, $categories));
-			if (count($finalCategory) > 0) {
-				$finalCategories[] = $finalCategory;
-			}
-		}
 
-		// product custom attributes
-		$searchCriteria = $this->searchCriteriaBuilder->addFilter('is_user_defined', 1)->create();
-		$attributeRepository = $this->attributeRepository->getList(
-			\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
-			$searchCriteria
-		);
-		foreach ($attributeRepository->getItems() as $items) {
-		   $customAttributes[$items->getFrontendLabel()] = $this->productResource->getAttribute($items->getAttributeCode())->getFrontend()->getValue($product);
+			// product custom attributes
+			$searchCriteria = $this->searchCriteriaBuilder->addFilter('is_user_defined', 1)->create();
+			$attributeRepository = $this->attributeRepository->getList(
+				\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
+				$searchCriteria
+			);
+			foreach ($attributeRepository->getItems() as $items) {
+			$customAttributes[$items->getFrontendLabel()] = $this->productResource->getAttribute($items->getAttributeCode())->getFrontend()->getValue($product);
+			}
+			$customAttributes['short_description'] = $product->getShortDescription();
+					
+			$store = $this->storeManager->getStore();
+			$imageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getData('image');
+			
+			// build data array
+			$data = [
+				"name" => $product->getName(),
+				"sku" => $product->getSku(),
+				"price" => $product->getPrice(),
+				"quantity" => ($stockItem->getQty() - $qtyShipped),
+				"brand" => $product->getAttributeText('manufacturer'),
+				"imageBase" => $imageUrl,
+				"weight" => $product->getWeight(),
+				"description" => $product->getDescription(),
+				"category" => json_encode($finalCategories),
+				"customAttributes" => json_encode($customAttributes)
+			];
 		}
-		$customAttributes['short_description'] = $product->getShortDescription();
-				
-		$store = $this->storeManager->getStore();
-		$imageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getData('image');
-		
-		// build data array
-		$data = [
-			"name" => $product->getName(),
-			"sku" => $product->getSku(),
-			"price" => $product->getPrice(),
-			"quantity" => ($stockItem->getQty() - $qtyShipped),
-			"brand" => $product->getAttributeText('manufacturer'),
-			"imageBase" => $imageUrl,
-			"weight" => $product->getWeight(),
-			"description" => $product->getDescription(),
-			"category" => json_encode($finalCategories),
-			"customAttributes" => json_encode($customAttributes)
-		];
 		
 		return $data;
     }   

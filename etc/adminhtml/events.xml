@@ -9,14 +9,14 @@
 <event name="catalog_product_delete_before">
     <observer name="api53_product_save_before" instance="Api53\Api53\Observer\Products" />
 </event>
-<event name="catalog_product_import_bunch_save_after">
-   <observer name="api53_product_import_bunch_save_after" instance="Api53\Api53\Observer\ProductImport" />
-</event>
 <event name="catalog_product_import_bunch_delete_commit_before">
     <observer name="api53_product_import_bunch_delete_commit_before" instance="Api53\Api53\Observer\ProductImport" />
 </event>
  <event name="sales_order_shipment_save_after">
-        <observer name="sales_order_shipment_after"
+        <observer name="api53_sales_order_shipment_after"
                   instance="Api53\Api53\Observer\SalesOrderShipmentAfter" />
-    </event>
+</event>
+<event name="checkout_submit_all_after">
+        <observer name="checkout_submit_all_after" instance="Api53\Api53\Observer\SalesOrderPlaceAfter" />
+    </event>	
 </config>

@@ -36,6 +36,14 @@
 						</depends>
 						 <comment><![CDATA[SKU amount for current Api53 User subscription]]></comment>
 					</field> 					
+					<field id="update_stock" translate="label"  sortOrder="2" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+						<label>Update Stock</label>
+						<source_model>Api53\Api53\Model\Config\Source\UpdateStock</source_model>
+						<depends>
+							<field id="enabled">1</field>
+						</depends>
+						 <comment><![CDATA[Select when you want to update the stock]]></comment>
+					</field> 					
                 </group>
           </section>   
      </system>

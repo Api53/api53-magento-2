@@ -46,6 +46,7 @@ class Product
 			// Limit products 
 			$productCollection = $this->collectionFactory->create();		
 			$productCollection->addAttributeToSelect('*');
+			$productCollection->addAttributeToFilter('type_id', \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
 			$productCollection->getSelect()->limit($skuAmount);
 	
 			// Build data array

@@ -6,6 +6,7 @@
                 <enabled>0</enabled>
                 <sku_amount>0</sku_amount>
                 <cron_enabled>1</cron_enabled>
+                <update_stock>1</update_stock>				
             </settings>
         </api53>
     </default>
