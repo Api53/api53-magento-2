@@ -206,8 +206,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			}
 			$customAttributes['short_description'] = $product->getShortDescription();
 					
-			$store = $this->storeManager->getStore();
-			$imageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getData('image');
+			//$store = $this->storeManager->getStore();
+			//$imageUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product' .$product->getData('image');
 			
 			// build data array
 			$data = [
@@ -216,12 +216,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				"price" => $product->getPrice(),
 				"quantity" => ($stockItem->getQty() - $qtyShipped),
 				"brand" => $product->getAttributeText('manufacturer'),
-				"imageBase" => $imageUrl,
+				//"imageBase" => $imageUrl,
 				"weight" => $product->getWeight(),
 				"description" => $product->getDescription(),
 				"category" => json_encode($finalCategories),
 				"customAttributes" => json_encode($customAttributes)
 			];
+			$i = 1;
+			$images = $product->getMediaGalleryImages();
+			foreach ($images as $image) {
+				$data["image".$i] = $image->getUrl();
+				$i++;
+			}
 		}
 		
 		return $data;

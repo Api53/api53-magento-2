@@ -12,6 +12,11 @@ class Product
      */
 	protected $collectionFactory;
 
+    /**
+     * @var EmarsysModelApiApi
+     */
+	protected $productFactory;
+
      /**
      * @var EmarsysModelApiApi
      */
@@ -23,12 +28,14 @@ class Product
     protected $api;
 
     public function __construct(
-		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $collectionFactory,	
+		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $collectionFactory,
+		\Magento\Catalog\Model\ProductFactory $productFactory,
 		Api53Helper $api53Helper,
         Api53ModelApi $api,
         array $data = []
     ) {
 		$this->collectionFactory = $collectionFactory;
+		$this->productFactory = $productFactory;
         $this->api53Helper = $api53Helper;
         $this->api = $api;
         //parent::__construct($context, $registry, $config, $cacheTypeList, $resource, $resourceCollection, $data);
@@ -53,8 +60,9 @@ class Product
 			$chunkSize = 25;
 			$count = 0;
 			$data = [];		
-			foreach ($productCollection as $product) {
+			foreach ($productCollection as $_product) {
 				$count++;
+				$product = $this->productFactory->create()->load($_product->getId());
 				$data[] = $this->api53Helper->getProductData($product);
 				if ($count == $chunkSize) {
 					$this->api->updateOrCreateProduct($data);

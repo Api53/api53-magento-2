@@ -1,5 +1,4 @@
 <?php
-
 namespace Api53\Api53\Observer;
 
 use Magento\Framework\Event\Observer;
@@ -44,15 +43,26 @@ class Products implements \Magento\Framework\Event\ObserverInterface
 			}
 		}
 	}
-		
+
 	/*
 	* @itechInsider
 	* Product Trigger Before Save
 	* */
 	private function catalogProductSaveBefore($product) { 	
 		// 
+		$origSku = $product->getOrigData('sku');
+		$newSku    = $product->getSku();
+
+		if ($origSku != $newSku) {
+			$data = [
+				["sku" => $origSku],
+			];
+			$apiKey = $this->api53Helper->getApiKey();
+			$this->api->setApiKey($apiKey);
+			$this->api->deleteProduct($data);
+		}
 	}
-	
+
 	/*
 	* @itechInsider
 	* Product Trigger After Save
@@ -64,13 +74,13 @@ class Products implements \Magento\Framework\Event\ObserverInterface
 		$apiKey = $this->api53Helper->getApiKey();
 		$this->api->setApiKey($apiKey);
 		$this->api->updateOrCreateProduct($data);
+		//throw new \Magento\Framework\Exception\LocalizedException(__(print_r($data, true)));
 	}
-	
+
 	/*
 	* @itechinsiders
 	* Product Trigger Delete Before
 	* */
-	
 	private function catalogProductDeleteBefore($product) {
 		$data = [
 			["sku" => $product->getSku()],
