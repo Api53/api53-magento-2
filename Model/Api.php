@@ -163,7 +163,7 @@ class Api extends \Magento\Framework\DataObject
      */
     public function updateOrCreateProduct($data)
     {
-		return $this->doRequest('/v1/product', ['headers' => ['X-Api-Key' => $this->apiKey], 'json' => $data], 'POST');;
+		return $this->doRequest('/v1/product', ['headers' => ['X-Api-Key' => $this->apiKey, 'charset' => 'utf-8'], 'json' => $data], 'POST');;
     }
 
     /**

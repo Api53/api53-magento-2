@@ -20,6 +20,7 @@
 <p align="center">
 <img src="https://shields.io/badge/Magento%202-2.3.3-f46f25?logo=magento&style=flat-square" alt="magento 2 v2.3.3">
 <img src="https://shields.io/badge/Magento%202-2.4.4-f46f25?logo=magento&style=flat-square" alt="magento 2 v2.4.4">
+<img src="https://shields.io/badge/Magento%202-2.4.5-f46f25?logo=magento&style=flat-square" alt="magento 2 v2.4.5">
 </p>
 
 <hr>

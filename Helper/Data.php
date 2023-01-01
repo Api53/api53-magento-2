@@ -222,12 +222,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				"category" => json_encode($finalCategories),
 				"customAttributes" => json_encode($customAttributes)
 			];
-			$i = 1;
-			$images = $product->getMediaGalleryImages();
-			foreach ($images as $image) {
-				$data["image".$i] = $image->getUrl();
-				$i++;
+			$images1 = $product->getMediaGalleryImages('images')->setOrder('position','ASC');
+			$images2 = [];
+			foreach ($images1 as $image) {
+				$images2[$image->getPosition()] = $image->getUrl();
 			}
+			ksort($images2);
+			$i = 1;
+			foreach ($images2 as $image) {
+				$data["image".$i] = $image;
+				$i++;
+			}			
 		}
 		
 		return $data;
