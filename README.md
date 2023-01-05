@@ -124,6 +124,23 @@ To use the module you need a valid Api53 Shop API key. To get a key you have to 
 
 The initial catalog sync process may take some time. **Up to 15 minutes**. It all depends on how many products are synced with Api53.
 
+#### Export product catalog to Api53
+To export your product catalog to Api53, you have two options:
+
+##### 1. From Admin Frontend
+
+Login to Magento Admin Frontend and open Api53 extension page under `Configuration` -> `Api53`. Enter the Api53 API Key that you previously generated on www.api53.com for your eCommerce shop. After you have saved all the information, a cron command will run in the background. Your products should appear in Api53 within a few minutes.
+
+##### 2. From Shell Command Line
+
+You can also export your entire catalog of shell command line. To do this, however, you must first have entered the Api53 API Key in the Admin Frontend. 
+
+Catalog export via shell command has the advantage that it does not use cron running in the background. That means all products are exported immediately.
+
+```bash
+$ cd /my/magento2/dir 
+$ php bin/magento api53:export-products
+```
 
 ## Documentation
 

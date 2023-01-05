@@ -151,7 +151,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		// product stock
 		$stockItem = $this->stockRegistry->getStockItemBySku($sku);
 
-		if ($stockItem->getQty() - $qtyShipped > 0) {
+		//if ($stockItem->getQty() - $qtyShipped > 0) {
 			// all categories
 			if ($this->allCategories == null){
 				$category_id = 2; //default category
@@ -233,7 +233,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$data["image".$i] = $image;
 				$i++;
 			}			
-		}
+		//}
 		
 		return $data;
     }   
